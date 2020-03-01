@@ -1,0 +1,29 @@
+package com.capgemini.librarymanagement.dto;
+
+import java.util.List;
+
+public class BookUserRel {
+	
+	private List<UserBookDetail> book;
+	
+	private UserInfoBean userInfoBean;
+
+	public List<BookInfo> getBook() {
+		return book;
+	}
+
+	public void setBook(List<BookInfo> book) {
+		this.book = book;
+	}
+
+	public UserInfoBean getUserInfoBean() {
+		return userInfoBean;
+	}
+
+	public void setUserInfoBean(UserInfoBean userInfoBean) {
+		this.userInfoBean = userInfoBean;
+	}
+	
+
+	
+}

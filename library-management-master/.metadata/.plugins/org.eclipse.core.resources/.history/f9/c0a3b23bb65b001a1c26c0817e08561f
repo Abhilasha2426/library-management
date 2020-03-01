@@ -1,0 +1,54 @@
+package com.capgemini.librarymanagement.dao;
+
+import com.capgemini.librarymanagement.db.DbStore1;
+import com.capgemini.librarymanagement.dto.BookInfo;
+import com.capgemini.librarymanagement.dto.BookUserRel;
+import com.capgemini.librarymanagement.dto.UserBookDetail;
+import com.capgemini.librarymanagement.dto.UserInfoBean;
+
+public class UserDAOImpl implements UserDAO {
+
+	static int count = 0;
+	public BookInfo searchBook(int id) {
+		for (BookInfo book : DbStore1.bookInfo) {
+			if (book.getBookId() == id) {
+				return book;
+			}
+		}
+		return null;
+	}
+
+	public BookInfo searchBookWithName(String name) {
+		for (BookInfo book : DbStore1.bookInfo) {
+			if (book.getBookName().startsWith(name)  || book.getBookAuthor().startsWith(name)) {
+				System.out.println(book);
+				return book;
+			}
+			}
+		return null;
+	}
+
+	public boolean requestCheck(BookInfo book) {
+		UserBookDetail bookDetail = new UserBookDetail();
+		bookDetail.setBookId(book.getBookId());
+		bookDetail.setCount(1);
+		bookDetail.setUserId(DbStore1.user.get(0).getUsrId());
+		DbStore1.userBookDetails.add(bookDetail);
+		
+		for (UserBookDetail bookDetailReq : DbStore1.userBookDetails) {
+			System.out.println(bookDetailReq.getBookId());
+			System.out.println(bookDetailReq.getUserId());
+		}
+		return true;
+	}
+
+	public boolean bookReturn() {
+		
+		for ( BookUserRel  relation: DbStore1.userBorrowedBook) {
+			
+			
+		}
+		return false;
+	}
+ 
+}

@@ -1,0 +1,103 @@
+package com.capgemini.librarymanagement.dao;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import com.capgemini.librarymanagement.db.DbStore1;
+import com.capgemini.librarymanagement.dto.BookInfo;
+import com.capgemini.librarymanagement.dto.UserBookDetail;
+import com.capgemini.librarymanagement.dto.UserInfoBean;
+
+public class AdminBookDaoImpl implements AdminBookDao {
+
+	static int count; 
+	public boolean addBook(BookInfo bookInfo) {
+		System.out.println(bookInfo);
+		DbStore1.bookInfo.add(bookInfo);
+		return true;
+	}
+
+	public boolean addUser(UserInfoBean userInfoBean) {
+		boolean isAddUser = false;
+		DbStore1.userInfoBean.add(userInfoBean);
+		isAddUser = true;
+		return isAddUser;
+	}
+
+	public boolean deleteUser(int userId) {
+		Iterator<UserInfoBean> itr = DbStore1.userInfoBean.iterator();
+		while (itr.hasNext()) {
+			UserInfoBean book = itr.next();
+			if (book.getUsrId() == userId) {
+				DbStore1.userInfoBean.remove(book);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean deleteBook(int bookId) {
+		Iterator<BookInfo> itr = DbStore1.bookInfo.iterator();
+		while (itr.hasNext()) {
+			BookInfo book = itr.next();
+			if (book.getBookId() == bookId) {
+				DbStore1.bookInfo.remove(book);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public List<BookInfo> showAllBooks() {
+		return DbStore1.bookInfo;
+
+	}
+
+	public List<UserInfoBean> showAllUser() {
+		return (DbStore1.userInfoBean);
+	}
+
+	public UserInfoBean updateUser(UserInfoBean userInfoBean) {
+		UserInfoBean bean;
+		Iterator<UserInfoBean> itr = DbStore1.userInfoBean.iterator();
+		while (itr.hasNext()) {
+			bean = itr.next();
+			if (bean.getUsrId() != userInfoBean.getUsrId()) {
+				bean.setUsrId(userInfoBean.getUsrId());
+				bean.setUsrName(userInfoBean.getUsrName());
+				bean.setUsrEmail(userInfoBean.getUsrEmail());
+				bean.setUsrPassword(userInfoBean.getUsrPassword());
+				return bean;
+			} else {
+				return null;
+			}
+		}
+		return userInfoBean;
+		
+
+	}
+
+	public void requestPass() {
+		for (UserBookDetail books : DbStore1.userBookDetails) {
+//			if (books.getUserId() == DbStore1.user.get(0).getUsrId()) {
+//				
+//			}
+			for (UserInfoBean users : DbStore1.user) {
+				if (books.getUserId() == users.getUsrId()) {
+					count = count++;
+					if (count<=3) {
+						books.setBorrowed(true);
+						SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+						books.setIssueDate();
+						books.setReturnDate(new Date()+15);
+						System.out.println("please return at metioned date");
+					}
+				}
+			} 
+		}
+	}
+
+	
+
+}

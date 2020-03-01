@@ -1,0 +1,10 @@
+package com.capgemini.librarymanagement.dto;
+
+import java.util.List;
+
+public class BookUserRel {
+	
+	private List<BookInfo> book;
+	
+
+}
