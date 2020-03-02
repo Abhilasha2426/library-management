@@ -19,6 +19,7 @@ import com.capgemini.librarymanagement.validation.LibraryManageValidation;
 
 public class LibraryManagementController {
 
+	private static final Object userPassword = null;
 	Scanner scanner = new Scanner(System.in);
 	AdminBookService adminBookService = new AdminBookServiceImpl();
 	UserService userService = new UserServiceImpl();
@@ -28,6 +29,7 @@ public class LibraryManagementController {
 
 		System.out.println(" Admin Successfull login");
 		while (true) {
+			System.out.println("-------------------------");
 			System.out.println("Enter your choice");
 			System.out.println("1.Add Book");
 			System.out.println("2.Add User");
@@ -46,7 +48,7 @@ public class LibraryManagementController {
 			switch (choice) {
 			case 1:
 				System.out.println("Enter book id: ");
-				int bookId = scanner.nextInt();
+				String bookId = scanner.next();
 
 				System.out.println("Enter name of book");
 				String bookName = scanner.next().trim();
@@ -55,7 +57,7 @@ public class LibraryManagementController {
 				String bookAuth = scanner.next().trim();
 
 				System.out.println("Enter no of books");
-				int bookNum = scanner.nextInt();
+				String bookNum = scanner.next();
 
 				System.out.println("Enter publisher name");
 				String pubName = scanner.next().trim();
@@ -73,14 +75,18 @@ public class LibraryManagementController {
 					if (adminBookService.addBook(bookInfo)) {
 						System.out.println("Books added successfully with " + bookNum + "copy");
 					}
-				} else {
-					throw new BookGenericException("Book Deatails Invalid");
+					// } else {
+					// try {
+					// throw new BookGenericException("Book Details Invalid");
+					// } catch(BookGenericException e) {
+					// System.err.println(e.getMessage());
+					// }
 				}
 
 				break;
 			case 2:
 				System.out.println("Enter UserId: ");
-				int usrId = scanner.nextInt();
+				String usrId = scanner.next();
 
 				System.out.println("Enter UserName:");
 				String usrName = scanner.next().trim();
@@ -91,19 +97,41 @@ public class LibraryManagementController {
 				System.out.println("Enter Password:");
 				String usrPassword = scanner.next().trim();
 
-				LibraryManageValidation userValidation = new LibraryManageValidation();
+				UserInfoBean userInfoBean = new UserInfoBean();
+				userInfoBean.setUsrId(usrId);
+				userInfoBean.setUsrName(usrName);
+				userInfoBean.setUsrEmail(usrEmail);
+				userInfoBean.setUsrPassword(usrPassword);
 
-				if (userValidation.userValidation(usrId, usrName, usrEmail, usrPassword)) {
-					UserInfoBean userInfoBean = new UserInfoBean();
-					userInfoBean.setUsrId(usrId);
-					userInfoBean.setUsrName(usrName);
-					userInfoBean.setUsrEmail(usrEmail);
-					userInfoBean.setUsrPassword(usrPassword);
-					if (adminBookService.addUser(userInfoBean)) {
-						System.out.println("Successfully Added the User");
-					}
-				} else {
-					throw new UserGenericException("Users Details is invalid");
+				LibraryManageValidation userValidation = new LibraryManageValidation();
+				System.out.println("uservalidation");
+				
+					for (UserInfoBean user : DbStore1.userInfoBean) {
+						System.out.println("for loop");
+						if (user.getUsrEmail().equals(usrEmail)) {
+							System.out.println("if loop");
+
+						} else {
+							if (userValidation.userValidation(usrId, usrName, usrEmail, usrPassword)) {
+
+							if (adminBookService.addUser(userInfoBean)) {
+								System.out.println("Successfully Added the User");
+							} else {
+								System.out.println("Adding user failed!!! ");
+							}
+							
+
+						}
+						}
+					
+					
+
+//				 else {
+//					try {
+//						throw new UserGenericException("Users Details is invalid");
+//					} catch (UserGenericException e) {
+//						System.err.println(e.getMessage());
+//					}
 
 				}
 
@@ -111,36 +139,44 @@ public class LibraryManagementController {
 			case 3:
 
 				System.out.println("enter the Book id for delete");
-				int bookId1 = scanner.nextInt();
+				String bookId1 = scanner.next();
 
 				LibraryManageValidation bookIdValidation = new LibraryManageValidation();
 
-				if (bookIdValidation.bookValidation(bookId1)) {
+				if (bookIdValidation.bookIdValidation(bookId1)) {
 					if (adminBookService.deleteBook(bookId1)) {
 						System.out.println("Deleted Successfully");
 					} else {
-						System.out.println("Book Id not found");
+						System.err.println("Book Id not found");
 					}
 
 				} else {
-					throw new BookGenericException("Invalid Book Id");
+					try {
+						throw new BookGenericException("Invalid Book Id");
+					} catch (BookGenericException e) {
+						System.out.println(e.getMessage());
+					}
 
 				}
 
 				break;
 			case 4:
 				System.out.println("enter the user id for delete");
-				int userId = scanner.nextInt();
+				String userId = scanner.next();
 				LibraryManageValidation userIdValidation = new LibraryManageValidation();
 
-				if (userIdValidation.userValidation(userId)) {
+				if (userIdValidation.userIdValidation(userId)) {
 					if (adminBookService.deleteUser(userId)) {
 						System.out.println("Deleted Successfully");
 					} else {
 						System.out.println("User Id not found");
 					}
 				} else {
-					throw new UserGenericException("User Id is Invalid");
+					try {
+						throw new UserGenericException("User Id is Invalid");
+					} catch (UserGenericException e) {
+						System.out.println(e.getMessage());
+					}
 
 				}
 				break;
@@ -167,13 +203,13 @@ public class LibraryManagementController {
 								+ books.getNoOfBooks() + "\t Publisher Name=" + books.getPublisher());
 					}
 				} else {
-					System.out.println("No books to show");
+					System.err.println("No books to show");
 				}
 				break;
 			case 7:
 				UserInfoBean bean = new UserInfoBean();
 				System.out.println("Enter User Id to Update");
-				bean.setUsrId(scanner.nextInt());
+				bean.setUsrId(scanner.next());
 
 				System.out.println("Enter User Name to Update");
 				bean.setUsrName(scanner.next().trim());
@@ -191,11 +227,15 @@ public class LibraryManagementController {
 						System.out.println("Updated Successfully!!!");
 
 					} else {
-						System.out.println("Failed to Update");
+						System.err.println("Failed to Update");
 					}
 
 				} else {
-					throw new UserGenericException("Invalid User Details");
+					try {
+						throw new UserGenericException("Invalid User Details");
+					} catch (UserGenericException e) {
+						System.out.println(e.getMessage());
+					}
 
 				}
 
@@ -208,18 +248,17 @@ public class LibraryManagementController {
 					} else {
 						System.out.println("your borrow limit is exceed");
 					}
+				} else {
+					System.err.println("Not Yet One Request");
 				}
-				else {
-					System.out.println("Not Yet One Request");
-				}
-				
+
 				break;
 			case 9:
 				if (adminBookService.bookRecieve()) {
 					System.out.println("Book Return Request Accepted");
-					
+
 				} else {
-					System.out.println("Book Return Request failed");
+					System.err.println("Book Return Request failed");
 
 				}
 
@@ -229,12 +268,11 @@ public class LibraryManagementController {
 				System.exit(0);
 
 			default:
-				System.out.println("Invalid choice");
+				System.err.println("Invalid choice");
 				break;
 			}
 
 		}
 	}
 
-	
 }

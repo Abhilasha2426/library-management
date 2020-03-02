@@ -1,14 +1,15 @@
 package com.capgemini.librarymanagement.dto;
 
 public class UserInfoBean {
-	private int usrId;
+	
+	private String usrId;
 	private String usrName;
 	private String usrEmail;
 	private String usrPassword;
-	public int getUsrId() {
+	public String getUsrId() {
 		return usrId;
 	}
-	public void setUsrId(int usrId) {
+	public void setUsrId(String usrId) {
 		this.usrId = usrId;
 	}
 	public String getUsrName() {

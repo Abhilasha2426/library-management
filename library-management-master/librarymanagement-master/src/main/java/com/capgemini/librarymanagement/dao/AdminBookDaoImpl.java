@@ -9,6 +9,8 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 import com.capgemini.librarymanagement.db.DbStore1;
 import com.capgemini.librarymanagement.dto.BookInfo;
 import com.capgemini.librarymanagement.dto.BookUserRel;
@@ -19,37 +21,37 @@ public class AdminBookDaoImpl implements AdminBookDao {
 
 	public static int count = 0;
 	public static int size = 0;
+	public static int add = 0;
 
 	public boolean addBook(BookInfo bookInfo) {
-		System.out.println(bookInfo);
 		DbStore1.bookInfo.add(bookInfo);
 		return true;
 	}
 
 	public boolean addUser(UserInfoBean userInfoBean) {
-		boolean isAddUser = false;
+		System.out.println(userInfoBean.getUsrId()+"dao");
 		DbStore1.userInfoBean.add(userInfoBean);
-		isAddUser = true;
-		return isAddUser;
+
+		return true;
 	}
 
-	public boolean deleteUser(int userId) {
+	public boolean deleteUser(String userId) {
 		Iterator<UserInfoBean> itr = DbStore1.userInfoBean.iterator();
 		while (itr.hasNext()) {
-			UserInfoBean book = itr.next();
-			if (book.getUsrId() == userId) {
-				DbStore1.userInfoBean.remove(book);
+			UserInfoBean user = itr.next();
+			if (user.getUsrId().equals(userId)) {
+				DbStore1.userInfoBean.remove(user);
 				return true;
 			}
 		}
 		return false;
 	}
 
-	public boolean deleteBook(int bookId) {
+	public boolean deleteBook(String bookId) {
 		Iterator<BookInfo> itr = DbStore1.bookInfo.iterator();
 		while (itr.hasNext()) {
 			BookInfo book = itr.next();
-			if (book.getBookId() == bookId) {
+			if (book.getBookId().equals(bookId)) {
 				DbStore1.bookInfo.remove(book);
 				return true;
 			}
@@ -127,18 +129,19 @@ public class AdminBookDaoImpl implements AdminBookDao {
 				System.out.println(detail.getReturnDate());
 				if (detail.getReturnDate().compareTo(fine.getReturnDate()) < 0) {
 					long diff = fine.getReturnDate().getTime() - detail.getReturnDate().getTime();
-					String days=BigDecimal.valueOf(diff).toPlainString();
-					double dayInNumber=Double.parseDouble(days);
-					System.out.println(fine.getReturnDate().getTime());
-					System.out.println(detail.getReturnDate().getTime());
-					System.out.println("dayInNumber "+dayInNumber);
+					long days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+					// String days = BigDecimal.valueOf(diff).toPlainString();
+					// double dayInNumber = Double.parseDouble(days);
+					// System.out.println(fine.getReturnDate().getTime());
+					// System.out.println(detail.getReturnDate().getTime());
+					// System.out.println("dayInNumber " + dayInNumber);
 					for (BookUserRel bookUserRel : DbStore1.userBorrowedBook) {
 						if (bookUserRel.getUserInfoBean().getUsrId() == detail.getUserId()) {
 							size++;
 							System.out.println(size);
 						}
 					}
-					double amount = dayInNumber * 5 * size;
+					double amount = days * 5 * size;
 					System.out.println("Fine=" + amount);
 					System.out.println(size);
 				} else {

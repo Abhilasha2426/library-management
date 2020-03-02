@@ -1,0 +1,5 @@
+package com.capgemini.librarymanagement.exception;
+
+public class ValidInputException {
+
+}

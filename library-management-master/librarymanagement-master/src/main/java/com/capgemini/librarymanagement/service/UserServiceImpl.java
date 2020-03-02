@@ -9,7 +9,7 @@ public class UserServiceImpl implements UserService{
 	
 	private UserDAO dao=new UserDAOImpl();
 
-	public BookInfo searchBook(int bookId) {
+	public BookInfo searchBook(String bookId) {
 		return dao.searchBook(bookId);
 	}
 

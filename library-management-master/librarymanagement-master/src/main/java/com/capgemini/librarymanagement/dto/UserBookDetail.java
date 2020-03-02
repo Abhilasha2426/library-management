@@ -4,24 +4,24 @@ import java.util.Date;
 
 public class UserBookDetail {
 	
-	private int userId;
-	private int bookId;
+	private String userId;
+	private String bookId;
 	private Date issueDate;
 	private Date returnDate;
 	private double fine;
 	private boolean isBorrowed;
 	private int count;
-	public int getUserId() {
+	public String getUserId() {
 		return userId;
 	}
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public void setUserId(String string) {
+		this.userId = string;
 	}
-	public int getBookId() {
+	public String getBookId() {
 		return bookId;
 	}
-	public void setBookId(int bookId) {
-		this.bookId = bookId;
+	public void setBookId(String string) {
+		this.bookId = string;
 	}
 	public Date getIssueDate() {
 		return issueDate;

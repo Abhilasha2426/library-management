@@ -1,23 +1,21 @@
 package com.capgemini.librarymanagement.dto;
 
 public class BookInfo {
-	private int bookId;
+	private String bookId;
 	private String bookName;
 	private String bookAuthor;
-	private int noOfBooks;
+	private String noOfBooks;
 	private String publisher;
-	
-	
 
 	public BookInfo() {
 
 	}
 
-	public int getBookId() {
+	public String getBookId() {
 		return bookId;
 	}
 
-	public void setBookId(int bookId) {
+	public void setBookId(String bookId) {
 		this.bookId = bookId;
 	}
 
@@ -37,12 +35,11 @@ public class BookInfo {
 		this.bookAuthor = bookAuthor;
 	}
 
-
-	public int getNoOfBooks() {
+	public String getNoOfBooks() {
 		return noOfBooks;
 	}
 
-	public void setNoOfBooks(int noOfBooks) {
+	public void setNoOfBooks(String noOfBooks) {
 		this.noOfBooks = noOfBooks;
 	}
 
@@ -54,6 +51,4 @@ public class BookInfo {
 		this.publisher = publisher;
 	}
 
-
-	
 }

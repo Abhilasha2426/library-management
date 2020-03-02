@@ -16,7 +16,7 @@ import com.capgemini.librarymanagement.dto.UserInfoBean;
 public class UserDAOImpl implements UserDAO {
 
 	static int count = 0;
-	public BookInfo searchBook(int id) {
+	public BookInfo searchBook(String id) {
 		for (BookInfo book : DbStore1.bookInfo) {
 			if (book.getBookId() == id) {
 				return book;
@@ -59,7 +59,7 @@ public class UserDAOImpl implements UserDAO {
 			try {
 				userRel.setReturnDate(new SimpleDateFormat("dd-MM-yyyy").parse(date));
 			} catch (ParseException e) {
-				e.printStackTrace();
+				System.err.println(e.getMessage());
 			}
 			
 			userRel.setUserInfoBean(relation.getUserInfoBean());

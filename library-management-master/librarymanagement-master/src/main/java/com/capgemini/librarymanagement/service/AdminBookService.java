@@ -10,9 +10,9 @@ public interface AdminBookService {
 
 	public boolean addUser(UserInfoBean userInfoBean);
 
-	public boolean deleteUser(int userId);
+	public boolean deleteUser(String userId);
 
-	public boolean deleteBook(int bookId);
+	public boolean deleteBook(String bookId);
 
 	public UserInfoBean updateUser(UserInfoBean bean);
 

@@ -14,11 +14,23 @@ public class LibraryManageValidation {
 
 	final Pattern validPassword = Pattern.compile("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$");
 
-	public boolean bookValidation(int bookId) {
-		if (bookId > 0) {
+	final Pattern validId = Pattern.compile("([0-9])");
+
+	final Pattern validUserId = Pattern.compile("([0-9])");
+
+	final Pattern validBookNum = Pattern.compile("([0-9])");
+
+	public boolean bookIdValidation(String bookId) {
+		Matcher bookIdMathcher = validId.matcher(bookId);
+		if (bookIdMathcher.find() && bookId.length() > 0) {
 			return true;
 		} else {
-			throw new BookGenericException("The id should be greater than 0");
+			try {
+				throw new BookGenericException("The Book id must be integer ");
+			} catch (BookGenericException e) {
+				System.err.println(e.getMessage());
+				return false;
+			}
 		}
 
 	}
@@ -28,73 +40,138 @@ public class LibraryManageValidation {
 		if (bookNameMatcher.find() && name.length() > 2 && name.length() < 30) {
 			return true;
 		} else {
-			throw new BookGenericException(
-					"Book Name must contain atleast 2 character and should not exceed 30 character");
+			try {
+				throw new BookGenericException(
+						"Book Name must contain atleast 2 character and should not exceed 30 character");
+			} catch (BookGenericException e) {
+				System.err.println(e.getMessage());
+				return false;
+			}
 		}
 	}
 
-	public boolean bookValidation(int bookId, String bookName, String bookAuth, int bookNum, String pubName) {
+	public boolean bookValidation(String bookId, String bookName, String bookAuth, String bookNum, String pubName) {
 		Matcher bookNameMatcher = validName.matcher(bookName);
 		Matcher authorNameMatcher = validName.matcher(bookAuth);
 		Matcher publisherNameMatcher = validName.matcher(pubName);
-		if (bookId > 0) {
+		Matcher bookIdMathcher = validId.matcher(bookId);
+		Matcher bookNumMatcher = validBookNum.matcher(bookNum);
+		if (bookIdMathcher.find() && bookId.length() > 0) {
 			if (bookNameMatcher.find() && bookName.length() > 2 && bookName.length() < 30) {
 				if (authorNameMatcher.find() && bookAuth.length() > 2 && bookAuth.length() < 50) {
-					if (bookNum > 0 && String.valueOf(bookNum).trim().length() > 0) {
+					if (bookNumMatcher.find() && bookNum.length() > 0) {
 						if (publisherNameMatcher.find() && pubName.length() > 2 && pubName.length() < 30) {
 							return true;
 						} else {
-							throw new BookGenericException("publisher Name is Invalid");
+							try {
+								throw new BookGenericException(
+										"publisher Name must contain atleast 3 character and should not exceed 30 character  ");
+							} catch (BookGenericException e) {
+								System.err.println(e.getMessage());
+								return false;
+							}
 						}
 
 					} else {
-						throw new BookGenericException("please enter no of book properly");
+						try {
+							throw new BookGenericException("Book Number must be integer");
+						} catch (BookGenericException e) {
+							System.err.println(e.getMessage());
+							return false;
+						}
 					}
 
 				} else {
-					throw new BookGenericException("Book Author Name is Invalid");
+					try {
+						throw new BookGenericException("Book Author Name is Invalid");
+					} catch (BookGenericException e) {
+						System.err.println(e.getMessage());
+						return false;
+					}
 				}
 
 			} else {
-				throw new BookGenericException("Book Name is Invalid");
+				try {
+					throw new BookGenericException(
+							"Book Name must contain atleast 3 character and should not exceed 30 character");
+				} catch (BookGenericException e) {
+					System.err.println(e.getMessage());
+					return false;
+				}
+
 			}
 		} else {
-			throw new BookGenericException("Book Id should be greter than 0");
+			try {
+				throw new BookGenericException("Book Id should be Integer");
+			} catch (BookGenericException e) {
+				System.err.println(e.getMessage());
+				return false;
+			}
 		}
+
 	}
 
-	public boolean userValidation(int usrId) {
-		if (usrId > 0) {
+	public boolean userIdValidation(String userId) {
+		Matcher userIdMathcher = validId.matcher(userId);
+		if (userIdMathcher.find() && userId.length() > 0) {
+			return true;
 		} else {
-			throw new BookGenericException("the id should be greater than 0");
-
+			try {
+				throw new BookGenericException("The Id should be greater than 0");
+			} catch (BookGenericException e) {
+				System.err.println(e.getMessage());
+			}
 		}
 		return false;
 
 	}
 
-	public boolean userValidation(int usrId, String usrName, String usrEmail, String usrPassword) {
+	public boolean userValidation(String usrId, String usrName, String usrEmail, String usrPassword) {
 		Matcher userNameMatcher = validName.matcher(usrName);
 		Matcher emailMatcher = validEmail.matcher(usrEmail);
 		Matcher passwordMatcher = validPassword.matcher(usrPassword);
-		if (usrId > 0) {
+		Matcher userIdMathcher = validId.matcher(usrId);
+		if (userIdMathcher.find() && usrId.length() > 0) {
+			System.out.println("id");
 			if (userNameMatcher.find() && usrName.length() > 2 && usrName.length() < 30) {
+				System.out.println("name");
 				if (emailMatcher.find() && usrEmail.length() > 5 && usrEmail.length() < 50) {
+					System.out.println("email");
 					if (passwordMatcher.find() && usrPassword.length() > 7 && usrPassword.length() < 12) {
+						System.out.println("pass");
 						return true;
 					} else {
-						throw new UserGenericException("password must contain 8 characters");
+						try {
+							throw new UserGenericException(
+									"Password that you've entered is incorrect,should contain atleast 8 characters including special characters");
+						} catch (UserGenericException e) {
+							System.err.println(e.getMessage());
+						}
 					}
 				} else {
-					throw new UserGenericException("please check entered email");
+					try {
+						throw new UserGenericException("please check entered email");
+					} catch (UserGenericException e) {
+						System.err.println(e.getMessage());
+					}
 				}
 
 			} else {
-				throw new UserGenericException("user name Should caontain only Alphabets");
+				try {
+					throw new UserGenericException("user name Should contain only Alphabets");
+				} catch (UserGenericException e) {
+					System.err.println(e.getMessage());
+				}
 			}
 
 		} else {
-			throw new UserGenericException("the id should be greater than 0");
+			try {
+				throw new UserGenericException("the id should be greater than 0");
+			} catch (UserGenericException e) {
+				System.err.println(e.getMessage());
+			}
 		}
+		return true;
+
 	}
 }

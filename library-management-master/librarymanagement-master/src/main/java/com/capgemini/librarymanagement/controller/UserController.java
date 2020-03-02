@@ -38,21 +38,21 @@ public class UserController {
 		}
 	}
 
-	private void displaySearchBook() {
-		System.out.println("Search Based on Book Id");
-		int bookId = scanner.nextInt();
-		LibraryManageValidation searchIdValidation = new LibraryManageValidation();
-		if (searchIdValidation.bookValidation(bookId)) {
-			BookInfo book = userService.searchBook(bookId);
-			if (book != null) {
-				System.out.println(book.getBookName());
-			}
-		} else {
-			throw new BookGenericException("Invalid book id");
-
-		}
-
-	}
+	// private void displaySearchBook() {
+	// System.out.println("Search Based on Book Id");
+	// String bookId = scanner.next();
+	// LibraryManageValidation searchIdValidation = new LibraryManageValidation();
+	// if (searchIdValidation.bookValidation(bookId)) {
+	// BookInfo book = userService.searchBook(bookId);
+	// if (book != null) {
+	// System.out.println(book.getBookName());
+	// }
+	// } else {
+	// throw new BookGenericException("Invalid book id");
+	//
+	// }
+	//
+	// }
 
 	private void displaySearchBookWithName() {
 		System.out.println("Search Based on Book Name");
@@ -94,7 +94,11 @@ public class UserController {
 				}
 			}
 		} else {
-			throw new BookGenericException("Invalid Name");
+			try {
+				throw new BookGenericException("Invalid Name");
+			} catch (BookGenericException e) {
+				System.out.println(e.getMessage());
+			}
 
 		}
 
