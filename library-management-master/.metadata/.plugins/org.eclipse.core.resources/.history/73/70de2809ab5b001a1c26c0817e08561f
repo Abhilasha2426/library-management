@@ -1,5 +1,0 @@
-package com.capgemini.librarymanagement.dto;
-
-public class BookUserRel {
-
-}
