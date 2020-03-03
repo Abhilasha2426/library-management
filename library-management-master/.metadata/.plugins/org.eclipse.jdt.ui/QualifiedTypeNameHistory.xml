@@ -22,7 +22,7 @@
 <fullyQualifiedTypeName name="java.util.regex.Pattern"/>
 <fullyQualifiedTypeName name="java.util.Scanner"/>
 <fullyQualifiedTypeName name="java.util.regex.Matcher"/>
-<fullyQualifiedTypeName name="com.capgemini.librarymanagement.db.DbStore1"/>
 <fullyQualifiedTypeName name="com.capgemini.librarymanagement.dto.UserInfoBean"/>
 <fullyQualifiedTypeName name="java.util.concurrent.TimeUnit"/>
+<fullyQualifiedTypeName name="com.capgemini.librarymanagement.db.DbStore1"/>
 </qualifiedTypeNameHistroy>

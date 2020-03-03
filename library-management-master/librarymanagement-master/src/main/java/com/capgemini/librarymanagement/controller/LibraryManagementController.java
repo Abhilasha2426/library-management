@@ -106,23 +106,50 @@ public class LibraryManagementController {
 				LibraryManageValidation userValidation = new LibraryManageValidation();
 				System.out.println("uservalidation");
 				
-					for (UserInfoBean user : DbStore1.userInfoBean) {
-						System.out.println("for loop");
-						if (user.getUsrEmail().equals(usrEmail)) {
-							System.out.println("if loop");
+//					for (UserInfoBean user : DbStore1.userInfoBean) {
+//						System.out.println("for loop");
+				if(DbStore1.userInfoBean == null && !DbStore1.userInfoBean.isEmpty()) {
+					
+						if (userValidation.userValidation(usrId, usrName, usrEmail, usrPassword)) {
 
+						if (adminBookService.addUser(userInfoBean)) {
+							System.out.println("Successfully Added the User");
 						} else {
+							System.out.println("Adding user failed!!! ");
+						}
+					
+				}else {
+					for (UserInfoBean user : DbStore1.userInfoBean) {
+						if (user.getUsrEmail().equals(usrEmail)) {
+							System.out.println("not added");
+						}else {
 							if (userValidation.userValidation(usrId, usrName, usrEmail, usrPassword)) {
 
-							if (adminBookService.addUser(userInfoBean)) {
-								System.out.println("Successfully Added the User");
-							} else {
-								System.out.println("Adding user failed!!! ");
-							}
+								if (adminBookService.addUser(userInfoBean)) {
+									System.out.println("Successfully Added the User");
+								} else {
+									System.out.println("Adding user failed!!! ");
+								}
+						}
+						}
+					}
+					
+//						if (user.getUsrEmail().equals(usrEmail)) {
+//							System.out.println("if loop");
+
+//						} else {
+//							if (userValidation.userValidation(usrId, usrName, usrEmail, usrPassword)) {
+//
+//							if (adminBookService.addUser(userInfoBean)) {
+//								System.out.println("Successfully Added the User");
+//							} else {
+//								System.out.println("Adding user failed!!! ");
+//							}
 							
 
-						}
-						}
+				}
+				}
+						
 					
 					
 
@@ -133,7 +160,7 @@ public class LibraryManagementController {
 //						System.err.println(e.getMessage());
 //					}
 
-				}
+				
 
 				break;
 			case 3:
